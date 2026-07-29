@@ -25,7 +25,7 @@ export default function Dashboard() {
                 <Typography variant="h4" className={styles.dashboardTitle}>To-Do App</Typography>
                 <Box style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                     <FormDialog />
-                    <Button variant="outlined" color="secondary" onClick={handleSignout}>
+                    <Button variant="outlined" color="primary" onClick={handleSignout}>
                         Sign Out
                     </Button>
                 </Box>
