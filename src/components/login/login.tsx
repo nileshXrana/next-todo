@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import { loginThunk } from '@/features/thunk';
+import { loginThunk } from '@/thunks/auth.thunk';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from "@/store";
 
@@ -54,12 +54,6 @@ export default function Login() {
                     <Typography variant="h6" className={styles.loginTitle}>Welcome Back</Typography>
                     <Typography className={styles.loginSubtitle}>Please sign in to your account</Typography>
                 </Box>
-
-                {/* {error && (
-                    <Box className={styles.errorBox}>
-                        {error}
-                    </Box>
-                )} */}
 
                 <form className={styles.loginForm} onSubmit={handleSubmit(handleSignIn)}>
                     <Box className={styles.formFields}>

@@ -11,7 +11,7 @@ import * as z from "zod";
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { signupThunk } from '@/features/thunk';
+import { signupThunk } from '@/thunks/auth.thunk';
 import { AppDispatch } from "@/store";
 
 const signupSchema = z.object({
