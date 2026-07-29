@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addTask, getTasks, login, signup } from '../services/task.service';
+import { addTask, getTasks, login, signup, updateTask, deleteTask } from '../services/task.service';
 import { SignupFormData } from '@/components/signup/signup';
 import { LoginFormData } from '@/components/login/login';
 import { taskData } from '@/components/form-dialog/form-dialog';
@@ -58,8 +58,44 @@ export const getTasksThunk = createAsyncThunk(
                 return rejectWithValue(res.error);
             }
             return res;
-        } catch (error) {
-            return rejectWithValue(error);
+        } catch (error: any) {
+            return rejectWithValue({
+                status: error.response?.status,
+                message: error.response?.data?.message || error.message
+            });
+        }
+    }
+);
+
+export const updateTaskThunk = createAsyncThunk(
+    'tasks/updateTask',
+    async ({ id, taskData }: { id: number; taskData: any }, { rejectWithValue }) => {
+        try {
+            const res = await updateTask(id, taskData);
+            if (res?.error) {
+                return rejectWithValue(res.error);
+            }
+            return res;
+        } catch (error: any) {
+            return rejectWithValue({
+                status: error.response?.status,
+                message: error.response?.data?.message || error.message
+            });
+        }
+    }
+);
+
+export const deleteTaskThunk = createAsyncThunk(
+    'tasks/deleteTask',
+    async (id: number, { rejectWithValue }) => {
+        try {
+            await deleteTask(id);
+            return id;
+        } catch (error: any) {
+            return rejectWithValue({
+                status: error.response?.status,
+                message: error.response?.data?.message || error.message
+            });
         }
     }
 );

@@ -1,26 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit'
-// import { fetchProducts } from '@/src/services/thunk.service'
+import { createSlice } from '@reduxjs/toolkit';
+import { getTasksThunk, addTaskThunk, updateTaskThunk, deleteTaskThunk } from '../thunk';
+import { TasksState } from './task.type';
 
-export const productSlice = createSlice({
-    name: 'products',
-    initialState: {},
+export const taskSlice = createSlice({
+    name: 'tasks',
+    initialState: {
+        tasks: [],
+        loading: false,
+        error: null,
+    } as TasksState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-        // .addCase(fetchProducts.pending, (state) => {
-        //     state.loading = true;
-        //     state.error = null;
-        // })
-        // .addCase(fetchProducts.fulfilled, (state, action) => {
-        //     state.loading = false;
-        //     const newProducts = Array.isArray(action.payload) ? action.payload : [];
-        //     state.data = [...state.data, ...newProducts];
-        // })
-        // .addCase(fetchProducts.rejected, (state, action) => {
-        //     state.loading = false;
-        //     state.error = action.payload;
-        // });
+            .addCase(getTasksThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getTasksThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.tasks = action.payload;
+            })
+            .addCase(getTasksThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(addTaskThunk.fulfilled, (state, action) => {
+                state.tasks.push(action.payload);
+            })
+            .addCase(updateTaskThunk.fulfilled, (state, action) => {
+                const index = state.tasks.findIndex(t => t.id === action.payload.id);
+                if (index !== -1) {
+                    state.tasks[index] = action.payload;
+                }
+            })
+            .addCase(deleteTaskThunk.fulfilled, (state, action) => {
+                state.tasks = state.tasks.filter(t => t.id !== action.payload);
+            });
     },
-})
+});
 
-export default productSlice.reducer;
+export default taskSlice.reducer;
